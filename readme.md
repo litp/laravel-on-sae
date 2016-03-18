@@ -30,8 +30,9 @@ SAE只允许通过git或者svn上传代码，并且代码在运行过程中对�
 1. 在SAE Storage 中新建一个bucket, 名字为 `laravel`
 2. 完成。
 
-详细原理和细节请参考 [这里]()。因为在Laravel中这些相关的写操作的目录都被硬编码在Laravel Framwork中，所以不能通过修改配置而只能通过修改laravel framework的源码来实现。
+详细原理和细节请参考 [这里]()。
 
+因为在Laravel中这些相关的写操作的目录都被硬编码在Laravel Framwork中，所以不能通过修改配置而只能通过修改laravel framework的源码来实现。
 [Sae-laravel-framework](https://github.com/litp/sae-laravel-framework)就是我fork自laravel官方framework并在相应地方做了修改的版本，使用时只需用它替换`composer.json`中的`laravel/laravel`即可。
 
 ## 感谢
