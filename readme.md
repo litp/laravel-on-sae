@@ -1,27 +1,39 @@
-# Laravel PHP Framework
+# Laravel on SAE
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Laravel on SAE 是修改过彻底解决了`putenv`和本地写问题的Laravel，因而它可以在SAE上完美地运行。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+一次性彻底解决问题并且适应各个版本的Laravel。
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-## Official Documentation
+## 解决`putenv`被禁用
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+SAE禁用了`putenv`函数（其他很多开发平台也同样会禁用`putenv`），Laravel中使用的phpdotenv模块不能正常使用。
 
-## Contributing
+Laravel on SAE 使用[sae-phpdotenv](https://github.com/litp/sae-phpdotenv)替代phpdotenv，然后修改env()函数使其从全局变量`$_ENV`中获取变量，从而使phpdotenv可以在禁用`putenv`的平台中正常使用。
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+## 本地写被禁止
 
-## Security Vulnerabilities
+SAE只允许通过git或者svn上传代码，并且代码在运行过程中对文件系统只有读取权限没有写入权限。
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+在Laravel 5中需要进行本地写操作的地方有：
+> 1. 模板编译
+> 2. 缓存类
+> 3. 日志处理
+> 4. Session类
+> 5. 服务提供者缓存
+> 
+> 参考 [夏天的风博客](http://www.xtwind.com/laravel-5-1-on-sae.html)
 
-## License
+解决的办法是使用SAE提供的Storage的文件Wrapper，把需要本地写的内容存到SAE Storage中。
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+具体操作为：
+1. 在SAE Storage 中新建一个bucket, 名字为 `laravel`
+2. 完成。
+
+详细原理和细节请参考 [这里]()。因为在Laravel中这些相关的写操作的目录都被硬编码在Laravel Framwork中，所以不能通过修改配置而只能通过修改laravel framework的源码来实现。
+
+[Sae-laravel-framework](https://github.com/litp/sae-laravel-framework)就是我fork自laravel官方framework并在相应地方做了修改的版本，使用时只需用它替换`composer.json`中的`laravel/laravel`即可。
+
+## 感谢
+
+欢迎提供各种意见及建议。
