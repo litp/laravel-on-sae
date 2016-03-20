@@ -6,7 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "litp/sae-laravel-framework": "5.2.x-dev"
+        "litp/sae-laravel-framework": "5.2.x-dev",
+        "litp/sae-phpdotenv":"dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -47,6 +48,6 @@
         ]
     },
     "config": {
-        "preferred-install": "source"
+        "preferred-install": "dist"
     }
 }
