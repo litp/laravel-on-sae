@@ -57,7 +57,7 @@ return [
     |
     */
 
-    'files' => storage_path('framework/sessions'),
+    'files' => env('SAE',false)?env('SAE_STORAGE','') . '/framework/sessions':storage_path('framework/sessions'),
 
     /*
     |--------------------------------------------------------------------------
