@@ -28,6 +28,6 @@ return [
     |
     */
 
-    'compiled' => realpath(storage_path('framework/views')),
+    'compiled' => env('SAE')?env('SAE_STORAGE') . '/framework/views':realpath(storage_path('framework/views')),
 
 ];
